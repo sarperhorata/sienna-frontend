@@ -1,23 +1,29 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Center, Spinner } from '@chakra-ui/react';
 
-const ProtectedRoute = ({ children }) => {
-  const { currentUser, isLoading } = useAuth();
+export default function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Center h="100vh">
-        <Spinner size="xl" color="brand.500" thickness="4px" />
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="brand.500"
+          size="xl"
+        />
       </Center>
     );
   }
 
-  if (!currentUser) {
-    return <Navigate to="/login" />;
+  if (!isAuthenticated()) {
+    // Redirect to login page but save the current location they were trying to go to
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
-};
-
-export default ProtectedRoute; 
+} 
