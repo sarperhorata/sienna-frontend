@@ -1,0 +1,41 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18.17.0"
+  NPM_VERSION = "9.6.7"
+
+# Production environment (main branch)
+[context.production.environment]
+  VITE_API_URL = "https://api.siennacarter.com"
+  VITE_APP_TITLE = "Sienna Carter"
+  NODE_ENV = "production"
+  
+# Staging/test environment (develop branch)
+[context.develop.environment]
+  VITE_API_URL = "https://api-staging.siennacarter.com"
+  VITE_APP_TITLE = "Sienna Carter - Staging"
+  NODE_ENV = "production"
+  
+# Deploy Preview environment (PR'lar için)
+[context.deploy-preview.environment]
+  VITE_API_URL = "https://api-staging.siennacarter.com"
+  VITE_APP_TITLE = "Sienna Carter - Preview"
+  NODE_ENV = "production"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://api.siennacarter.com https://api-staging.siennacarter.com; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';" 
