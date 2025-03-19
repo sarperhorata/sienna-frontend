@@ -1,119 +1,118 @@
-import {
-  Box,
-  Container,
-  Stack,
-  SimpleGrid,
-  Text,
-  Link,
-  VisuallyHidden,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const SocialButton = ({ children, label, href }) => {
+const FooterContainer = styled.footer`
+  background-color: #1a1a1a;
+  padding: 2rem;
+  color: #f8f9fa;
+  margin-top: auto;
+`;
+
+const FooterContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
+`;
+
+const FooterSection = styled.div`
+  flex: 1;
+  min-width: 200px;
+  margin-right: 2rem;
+  
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
+`;
+
+const FooterTitle = styled.h3`
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #ff6b6b;
+`;
+
+const FooterLink = styled(Link)`
+  display: block;
+  color: #f8f9fa;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  
+  &:hover {
+    color: #ff6b6b;
+  }
+`;
+
+const SocialLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+const SocialIcon = styled.a`
+  color: #f8f9fa;
+  font-size: 1.5rem;
+  
+  &:hover {
+    color: #ff6b6b;
+  }
+`;
+
+const Copyright = styled.div`
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+  font-size: 0.9rem;
+  color: #adb5bd;
+`;
+
+const Footer = () => {
   return (
-    <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-      rounded={'full'}
-      w={8}
-      h={8}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-      _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-      }}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
+    <FooterContainer>
+      <FooterContent>
+        <FooterSection>
+          <FooterTitle>Sienna Carter</FooterTitle>
+          <p>Connect with Sienna, an AI influencer with a passion for fashion, fitness, and authenticity.</p>
+          <SocialLinks>
+            <SocialIcon href="https://twitter.com/sien_carter" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-twitter"></i>
+            </SocialIcon>
+            <SocialIcon href="https://instagram.com/sien_carter" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-instagram"></i>
+            </SocialIcon>
+            <SocialIcon href="https://tiktok.com/@sien_carter" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-tiktok"></i>
+            </SocialIcon>
+          </SocialLinks>
+        </FooterSection>
+        
+        <FooterSection>
+          <FooterTitle>Quick Links</FooterTitle>
+          <FooterLink to="/chat">Chat with Sienna</FooterLink>
+          <FooterLink to="/generate">Generate Photos</FooterLink>
+          <FooterLink to="/gallery">Photo Gallery</FooterLink>
+        </FooterSection>
+        
+        <FooterSection>
+          <FooterTitle>Legal</FooterTitle>
+          <FooterLink to="/terms">Terms of Service</FooterLink>
+          <FooterLink to="/privacy">Privacy Policy</FooterLink>
+          <FooterLink to="/cookies">Cookie Policy</FooterLink>
+        </FooterSection>
+      </FooterContent>
+      
+      <Copyright>
+        &copy; {new Date().getFullYear()} Sienna Carter. All rights reserved.
+      </Copyright>
+    </FooterContainer>
   );
 };
 
-const ListHeader = ({ children }) => {
-  return (
-    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
-      {children}
-    </Text>
-  );
-};
-
-export default function Footer() {
-  return (
-    <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
-      borderTopWidth={1}
-      borderStyle={'solid'}
-      borderColor={useColorModeValue('gray.200', 'gray.700')}
-    >
-      <Container as={Stack} maxW={'container.xl'} py={10}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
-            <ListHeader>Şirket</ListHeader>
-            <Link as={RouterLink} to='/about'>Hakkımızda</Link>
-            <Link as={RouterLink} to='/contact'>İletişim</Link>
-            <Link as={RouterLink} to='/careers'>Kariyer</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Destek</ListHeader>
-            <Link as={RouterLink} to='/help'>Yardım Merkezi</Link>
-            <Link as={RouterLink} to='/terms'>Kullanım Şartları</Link>
-            <Link as={RouterLink} to='/privacy'>Gizlilik Politikası</Link>
-            <Link as={RouterLink} to='/cookie'>Çerez Politikası</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Özellikler</ListHeader>
-            <Link as={RouterLink} to='/hashtag-generator'>Hashtag Oluşturucu</Link>
-            <Link as={RouterLink} to='/image-generator'>Resim Oluşturucu</Link>
-            <Link as={RouterLink} to='/voice-generation'>Ses Sentezi</Link>
-            <Link as={RouterLink} to='/integrations'>Entegrasyonlar</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Bizi Takip Edin</ListHeader>
-            <Stack direction={'row'} spacing={6}>
-              <SocialButton label={'Twitter'} href={'https://twitter.com/siennacarter'}>
-                <FaTwitter />
-              </SocialButton>
-              <SocialButton label={'Instagram'} href={'https://instagram.com/siennacarter'}>
-                <FaInstagram />
-              </SocialButton>
-              <SocialButton label={'LinkedIn'} href={'https://linkedin.com/company/siennacarter'}>
-                <FaLinkedin />
-              </SocialButton>
-            </Stack>
-          </Stack>
-        </SimpleGrid>
-      </Container>
-
-      <Box
-        borderTopWidth={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.700')}
-      >
-        <Container
-          as={Stack}
-          maxW={'container.xl'}
-          py={4}
-          direction={{ base: 'column', md: 'row' }}
-          spacing={4}
-          justify={{ md: 'space-between' }}
-          align={{ md: 'center' }}
-        >
-          <Text>© {new Date().getFullYear()} Sienna Carter. Tüm hakları saklıdır.</Text>
-        </Container>
-      </Box>
-    </Box>
-  );
-} 
+export default Footer; 

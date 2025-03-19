@@ -7,13 +7,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:10000',
         changeOrigin: true,
       }
     }
   },
   build: {
-    outDir: 'build',
+    outDir: 'dist',
     sourcemap: true,
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
+  },
+  esbuild: {
+    loader: { '.js': 'jsx' }
   }
-}) 
+})

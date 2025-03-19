@@ -1,98 +1,118 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import apiClient from '../api/axios';
 
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
+// Create context
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Set axios default headers
   useEffect(() => {
-    // Local storage'dan token kontrolü
-    const token = localStorage.getItem('token');
     if (token) {
-      fetchUserProfile(token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } else {
-      setIsLoading(false);
+      delete axios.defaults.headers.common['Authorization'];
     }
-  }, []);
+  }, [token]);
 
-  const fetchUserProfile = async (token) => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get('/api/auth/me', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setCurrentUser(response.data.user);
-      setError(null);
-    } catch (err) {
-      setError('Failed to fetch user profile');
-      localStorage.removeItem('token');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Load user on initial render if token exists
+  useEffect(() => {
+    const loadUser = async () => {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
-  const login = async (email, password) => {
-    try {
-      setIsLoading(true);
-      const response = await axios.post('/api/auth/login', {
-        email,
-        password
-      });
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setCurrentUser(user);
-      setError(null);
-      return user;
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Login failed';
-      setError(errorMessage);
-      throw new Error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        const res = await apiClient.get('/api/auth/me');
+        setUser(res.data.user);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading user:', err);
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
+        setError('Authentication failed. Please login again.');
+      }
 
+      setLoading(false);
+    };
+
+    loadUser();
+  }, [token]);
+
+  // Register user
   const register = async (userData) => {
     try {
-      setIsLoading(true);
-      const response = await axios.post('/api/auth/register', userData);
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setCurrentUser(user);
+      setLoading(true);
+      const res = await apiClient.post('/api/auth/register', userData);
+      
+      localStorage.setItem('token', res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
       setError(null);
-      return user;
+      
+      return res.data;
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Registration failed';
-      setError(errorMessage);
-      throw new Error(errorMessage);
+      setError(err.response?.data?.message || 'Registration failed');
+      throw err;
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
+  // Login user
+  const login = async (userData) => {
+    try {
+      setLoading(true);
+      const res = await apiClient.post('/api/auth/login', userData);
+      
+      localStorage.setItem('token', res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
+      setError(null);
+      
+      return res.data;
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Logout user
   const logout = () => {
     localStorage.removeItem('token');
-    setCurrentUser(null);
+    setToken(null);
+    setUser(null);
   };
 
-  const value = {
-    currentUser,
-    isLoading,
-    error,
-    login,
-    register,
-    logout,
-  };
+  // Check if user is authenticated
+  const isAuthenticated = () => !!token;
+
+  // Check if user is premium
+  const isPremium = () => user?.subscriptionStatus === 'premium';
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,
+        error,
+        register,
+        login,
+        logout,
+        isAuthenticated,
+        isPremium,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
