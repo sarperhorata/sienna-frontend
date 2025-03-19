@@ -1,0 +1,50 @@
+{
+  "app": {
+    "name": "Sienna Carter",
+    "slogan": "Sosyal Medya İçerikleriniz Yapay Zeka ile Gelişsin"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "features": "Özellikler",
+    "pricing": "Fiyatlandırma",
+    "about": "Hakkımızda",
+    "dashboard": "Kontrol Paneli",
+    "profile": "Profil",
+    "logout": "Çıkış Yap"
+  },
+  "buttons": {
+    "getStarted": "Hemen Başla",
+    "learnMore": "Daha Fazla Bilgi",
+    "startFree": "Ücretsiz Başlayın",
+    "seeFeatures": "Özellikleri Gör",
+    "continue": "Devam Et",
+    "back": "Geri",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "update": "Güncelle"
+  },
+  "footer": {
+    "company": "Şirket",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "careers": "Kariyer",
+    "support": "Destek",
+    "helpCenter": "Yardım Merkezi",
+    "terms": "Kullanım Şartları",
+    "privacy": "Gizlilik Politikası",
+    "cookiePolicy": "Çerez Politikası",
+    "features": "Özellikler",
+    "hashtagGenerator": "Hashtag Oluşturucu",
+    "imageGenerator": "Resim Oluşturucu",
+    "voiceGeneration": "Ses Sentezi",
+    "integrations": "Entegrasyonlar",
+    "followUs": "Bizi Takip Edin",
+    "copyright": "© {{year}} Sienna Carter. Tüm hakları saklıdır."
+  },
+  "language": {
+    "en": "İngilizce",
+    "tr": "Türkçe"
+  }
+} 

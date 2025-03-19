@@ -1,0 +1,50 @@
+{
+  "app": {
+    "name": "Sienna Carter",
+    "slogan": "Enhance Your Social Media Content with AI"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "buttons": {
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "startFree": "Start Free",
+    "seeFeatures": "See Features",
+    "continue": "Continue",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "update": "Update"
+  },
+  "footer": {
+    "company": "Company",
+    "about": "About",
+    "contact": "Contact",
+    "careers": "Careers",
+    "support": "Support",
+    "helpCenter": "Help Center",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "features": "Features",
+    "hashtagGenerator": "Hashtag Generator",
+    "imageGenerator": "Image Generator",
+    "voiceGeneration": "Voice Synthesis",
+    "integrations": "Integrations",
+    "followUs": "Follow Us",
+    "copyright": "© {{year}} Sienna Carter. All rights reserved."
+  },
+  "language": {
+    "en": "English",
+    "tr": "Turkish"
+  }
+} 
